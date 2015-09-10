@@ -1,138 +1,91 @@
-var React = require('react');
-var accept = require('attr-accept');
+import React from 'react'
 
-var Dropzone = React.createClass({
+export default class Dropzone extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { isDragActive: false }
 
-  getDefaultProps: function() {
-    return {
-      disableClick: false,
-      multiple: true
-    };
-  },
+    this.onDragEnter = this.onDragEnter.bind(this)
+    this.onDragLeave = this.onDragLeave.bind(this)
+    this.onDrop = this.onDrop.bind(this)
+    this.onClick = this.onClick.bind(this)
+  }
 
-  getInitialState: function() {
-    return {
-      isDragActive: false
-    };
-  },
-
-  propTypes: {
-    onDrop: React.PropTypes.func,
-    onDropAccepted: React.PropTypes.func,
-    onDropRejected: React.PropTypes.func,
-    onDragEnter: React.PropTypes.func,
-    onDragLeave: React.PropTypes.func,
-
-    style: React.PropTypes.object,
-    activeStyle: React.PropTypes.object,
-    className: React.PropTypes.string,
-    activeClassName: React.PropTypes.string,
-    rejectClassName: React.PropTypes.string,
-
-    disableClick: React.PropTypes.bool,
-    multiple: React.PropTypes.bool,
-    accept: React.PropTypes.string,
-  },
-
-  allFilesAccepted: function(files) {
-    return files.every(file => accept(file, this.props.accept))
-  },
-
-  onDragEnter: function(e) {
-    e.preventDefault();
-
-    var dataTransferItems = Array.prototype.slice.call(e.dataTransfer ? e.dataTransfer.items : e.target.files);
-    var allFilesAccepted = this.allFilesAccepted(dataTransferItems);
+  onDragEnter(e) {
+    e.preventDefault()
 
     this.setState({
-      isDragActive: allFilesAccepted,
-      isDragReject: !allFilesAccepted
-    });
+      isDragActive: true
+    })
 
     if (this.props.onDragEnter) {
-      this.props.onDragEnter(e);
+      this.props.onDragEnter(e)
     }
-  },
+  }
 
-  onDragOver: function (e) {
-    e.preventDefault();
-  },
+  onDragOver(e) {
+    e.preventDefault()
+  }
 
-  onDragLeave: function(e) {
-    e.preventDefault();
+  onDragLeave(e) {
+    e.preventDefault()
 
     this.setState({
-      isDragActive: false,
-      isDragReject: false
-    });
+      isDragActive: false
+    })
 
     if (this.props.onDragLeave) {
-      this.props.onDragLeave(e);
+      this.props.onDragLeave(e)
     }
-  },
+  }
 
-  onDrop: function(e) {
-    e.preventDefault();
+  onDrop(e) {
+    e.preventDefault()
 
     this.setState({
-      isDragActive: false,
-      isDragReject: false
-    });
+      isDragActive: false
+    })
 
-    var droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    var max = this.props.multiple ? droppedFiles.length : 1;
-    var files = [];
+    var droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files
+    var max = this.props.multiple ? droppedFiles.length : 1
+    var files = []
 
     for (var i = 0; i < max; i++) {
-      var file = droppedFiles[i];
-      file.preview = URL.createObjectURL(file);
-      files.push(file);
+      var file = droppedFiles[i]
+      file.preview = URL.createObjectURL(file)
+      files.push(file)
     }
 
     if (this.props.onDrop) {
-      this.props.onDrop(files, e);
+      this.props.onDrop(files, e)
     }
+  }
 
-    if (this.allFilesAccepted(files)) {
-      if (this.props.onDropAccepted) {
-        this.props.onDropAccepted(files, e);
-      }
-    } else {
-      if (this.props.onDropRejected) {
-        this.props.onDropRejected(files, e);
-      }
-    }
-  },
-
-  onClick: function () {
+  onClick() {
     if (!this.props.disableClick) {
-      this.open();
+      this.open()
     }
-  },
+  }
 
-  open: function() {
-    var fileInput = React.findDOMNode(this.refs.fileInput);
-    fileInput.value = null;
-    fileInput.click();
-  },
+  open() {
+    var fileInput = React.findDOMNode(this.refs.fileInput)
+    fileInput.value = null
+    fileInput.click()
+  }
 
-  render: function() {
-
-    var className;
+  render() {
+    var className
     if (this.props.className) {
-      className = this.props.className;
+      className = this.props.className
       if (this.state.isDragActive) {
-        className += ' ' + this.props.activeClassName;
-      };
-      if (this.state.isDragReject) {
-        className += ' ' + this.props.rejectClassName;
-      };
-    };
+        className += ' ' + this.props.activeClassName
+      }
+    }
 
-    var style, activeStyle;
+    var style, activeStyle
     if (this.props.style) {
-      style = this.props.style;
-      activeStyle = this.props.activeStyle;
+      style = this.props.style
+      activeStyle = this.props.activeStyle
     } else if (!className) {
       style = {
         width: 200,
@@ -141,24 +94,24 @@ var Dropzone = React.createClass({
         borderColor: '#666',
         borderStyle: 'dashed',
         borderRadius: 5,
-      };
+      }
       activeStyle = {
         borderStyle: 'solid',
         backgroundColor: '#eee'
-      };
+      }
     }
 
-    var appliedStyle;
+    var appliedStyle
     if (style && this.state.isDragActive) {
       appliedStyle = {
         ...style,
         ...activeStyle
-      };
+      }
     } else {
       appliedStyle = {
         ...style
-      };
-    };
+      }
+    }
 
     return (
       <div
@@ -170,19 +123,35 @@ var Dropzone = React.createClass({
         onDragLeave={this.onDragLeave}
         onDrop={this.onDrop}
       >
-        {this.props.children}
         <input
           type='file'
           ref='fileInput'
           style={{ display: 'none' }}
           multiple={this.props.multiple}
-          accept={this.props.accept}
           onChange={this.onDrop}
-        />
+        >
+          {this.props.children}
+        </input>
       </div>
-    );
+    )
   }
+}
 
-});
+Dropzone.defaultProps = {
+  disableClick: false,
+  multiple: true
+}
 
-module.exports = Dropzone;
+Dropzone.propTypes = {
+  onDrop: React.PropTypes.func.isRequired,
+  onDragEnter: React.PropTypes.func,
+  onDragLeave: React.PropTypes.func,
+
+  style: React.PropTypes.object,
+  activeStyle: React.PropTypes.object,
+  className: React.PropTypes.string,
+  activeClassName: React.PropTypes.string,
+
+  disableClick: React.PropTypes.bool,
+  multiple: React.PropTypes.bool
+}
