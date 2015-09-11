@@ -8,7 +8,7 @@ Try it out here: http://paramaggarwal.github.io/react-dropzone/
 Installation
 ============
 
-The easiest way to use react-dropzone is to install it from npm and include it in your React build process (using [Webpack](http://webpack.github.io/), [Browserify](http://browserify.org/), etc).
+The easiest way to use react-dropzone-es6 is to install it from npm and include it in your React build process (using [Webpack](http://webpack.github.io/), [Browserify](http://browserify.org/), etc).
 
 ```
 npm install --save react-dropzone-es6
@@ -17,7 +17,7 @@ npm install --save react-dropzone-es6
 Usage
 =====
 
-Simply `require('react-dropzone')` and specify an `onDrop` method that accepts an array of dropped files.
+Simply `require('react-dropzone-es6')` and specify an `onDrop` method that accepts an array of dropped files.
 
 By default, the component picks up some default styling to get you started. You can customize `<Dropzone>` by specifying a `style` and `activeStyle` which is applied when a file is dragged over the zone. You can also specify `className` and `activeClassName` if you would rather style using CSS.
 
@@ -28,7 +28,7 @@ Example
 
 /** @jsx React.DOM */
 var React = require('react');
-var Dropzone = require('react-dropzone');
+var Dropzone = require('react-dropzone-es6');
 
 var DropzoneDemo = React.createClass({
     onDrop: function (files) {
@@ -62,7 +62,7 @@ To trigger the dropzone manually (open the file prompt), call the component's `o
 ```jsx
 /** @jsx React.DOM */
 var React = require('react');
-var Dropzone = require('react-dropzone');
+var Dropzone = require('react-dropzone-es6');
 
 var DropzoneDemo = React.createClass({
     getInitialState: function () {
@@ -105,7 +105,7 @@ React.render(<DropzoneDemo />, document.body);
 Uploads
 =======
 
-Using `react-dropzone` is similar to using a file form field, but instead of getting the `files` property from the field, you listen to the `onDrop` callback to handle the files. Simple explanation here: http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+Using `react-dropzone-es6` is similar to using a file form field, but instead of getting the `files` property from the field, you listen to the `onDrop` callback to handle the files. Simple explanation here: http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
 
 Specifying the `onDrop` method, provides you with an array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File) which you can then send to a server. For example, with [SuperAgent](https://github.com/visionmedia/superagent) as a http/ajax library:
 
@@ -121,5 +121,10 @@ Specifying the `onDrop` method, provides you with an array of [Files](https://de
 
 License
 =======
+
+Copyright for portions of project react-dropzone-es6 are held by
+Param Aggarwal 2014 as part of project react-dropzone.
+All other copyright for project react-dropzone-es6 are held by
+Dominik Nikiel 2015.
 
 MIT
