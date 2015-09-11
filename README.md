@@ -1,4 +1,4 @@
-react-dropzone
+react-dropzone-es6
 ==============
 
 Simple HTML5 drag-drop zone for files with React.js.
@@ -11,13 +11,13 @@ Installation
 The easiest way to use react-dropzone is to install it from npm and include it in your React build process (using [Webpack](http://webpack.github.io/), [Browserify](http://browserify.org/), etc).
 
 ```
-npm install --save react-dropzone
+npm install --save react-dropzone-es6
 ```
 
 Usage
 =====
 
-Simply `require('react-dropzone')` and specify an `onDrop` method that accepts an array of dropped files. 
+Simply `require('react-dropzone')` and specify an `onDrop` method that accepts an array of dropped files.
 
 By default, the component picks up some default styling to get you started. You can customize `<Dropzone>` by specifying a `style` and `activeStyle` which is applied when a file is dragged over the zone. You can also specify `className` and `activeClassName` if you would rather style using CSS.
 
