@@ -1,6 +1,6 @@
 {
-  "name": "react-dropzone",
-  "version": "2.1.0",
+  "name": "react-dropzone-es6",
+  "version": "1.0.0",
   "description": "Simple HTML5 drag-drop zone with React.js",
   "main": "lib/index.js",
   "scripts": {
@@ -16,13 +16,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:paramaggarwal/react-dropzone.git"
+    "url": "git@github.com:skyharbor/react-dropzone-es6.git"
   },
   "bugs": {
-    "url": "https://github.com/paramaggarwal/react-dropzone/issues"
+    "url": "https://github.com/skyharbor/react-dropzone-es6/issues"
   },
-  "homepage": "https://github.com/paramaggarwal/react-dropzone",
-  "author": "Param Aggarwal",
+  "homepage": "https://github.com/skyharbor/react-dropzone-es6",
+  "author": "Dominik Nikiel",
   "license": "MIT",
   "dependencies": {
     "attr-accept": "^1.0.1"
