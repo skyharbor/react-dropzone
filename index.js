@@ -1,4 +1,5 @@
 import React from 'react'
+import accept from 'attr-accept'
 
 export default class Dropzone extends React.Component {
   constructor(props) {
@@ -11,11 +12,19 @@ export default class Dropzone extends React.Component {
     this.onClick = this.onClick.bind(this)
   }
 
+  allFilesAccepted(files) {
+    return files.every(file =>  accept(file, this.props.accept))
+  }
+
   onDragEnter(e) {
     e.preventDefault()
 
+    var dataTransferItems = Array.prototype.slice.call(e.dataTransfer ? e.dataTransfer.items : e.target.files)
+    var allFilesAccepted = this.allFilesAccepted(dataTransferItems)
+
     this.setState({
-      isDragActive: true
+      isDragActive: allFilesAccepted,
+      isDragReject: !allFilesAccepted
     })
 
     if (this.props.onDragEnter) {
@@ -31,7 +40,8 @@ export default class Dropzone extends React.Component {
     e.preventDefault()
 
     this.setState({
-      isDragActive: false
+      isDragActive: false,
+      isDragReject: false
     })
 
     if (this.props.onDragLeave) {
@@ -43,7 +53,8 @@ export default class Dropzone extends React.Component {
     e.preventDefault()
 
     this.setState({
-      isDragActive: false
+      isDragActive: false,
+      isDragReject: false
     })
 
     var droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files
@@ -58,6 +69,16 @@ export default class Dropzone extends React.Component {
 
     if (this.props.onDrop) {
       this.props.onDrop(files, e)
+    }
+
+    if (this.allFilesAccepted(files)) {
+      if (this.props.onDropAccepted) {
+        this.props.onDropAccepted(files, e);
+      }
+    } else {
+      if (this.props.onDropRejected) {
+        this.props.onDropRejected(files, e);
+      }
     }
   }
 
@@ -80,9 +101,13 @@ export default class Dropzone extends React.Component {
       if (this.state.isDragActive) {
         className += ' ' + this.props.activeClassName
       }
+      if (this.state.isDragReject) {
+        className += ' ' + this.props.rejectClassName
+      }
     }
 
-    var style, activeStyle
+    var style
+    var activeStyle
     if (this.props.style) {
       style = this.props.style
       activeStyle = this.props.activeStyle
@@ -123,15 +148,15 @@ export default class Dropzone extends React.Component {
         onDragLeave={this.onDragLeave}
         onDrop={this.onDrop}
       >
+        {this.props.children}
         <input
           type='file'
           ref='fileInput'
           style={{ display: 'none' }}
           multiple={this.props.multiple}
+          accept={this.props.accept}
           onChange={this.onDrop}
-        >
-          {this.props.children}
-        </input>
+        />
       </div>
     )
   }
@@ -144,6 +169,8 @@ Dropzone.defaultProps = {
 
 Dropzone.propTypes = {
   onDrop: React.PropTypes.func.isRequired,
+  onDropAccepted: React.PropTypes.func,
+  onDropRejected: React.PropTypes.func,
   onDragEnter: React.PropTypes.func,
   onDragLeave: React.PropTypes.func,
 
@@ -153,5 +180,6 @@ Dropzone.propTypes = {
   activeClassName: React.PropTypes.string,
 
   disableClick: React.PropTypes.bool,
-  multiple: React.PropTypes.bool
+  multiple: React.PropTypes.bool,
+  accept: React.PropTypes.string
 }
