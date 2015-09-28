@@ -19,7 +19,7 @@ export default class Dropzone extends React.Component {
   onDragEnter(e) {
     e.preventDefault()
 
-    var dataTransferItems = Array.prototype.slice.call(e.dataTransfer ? e.dataTransfer.items : e.target.files)
+    var dataTransferItems = Array.prototype.slice.call(e.dataTransfer && e.dataTransfer.items ? e.dataTransfer.items : [])
     var allFilesAccepted = this.allFilesAccepted(dataTransferItems)
 
     this.setState({
