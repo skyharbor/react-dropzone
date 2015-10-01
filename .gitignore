@@ -7,3 +7,6 @@ node_modules
 
 # Generated files
 lib
+
+# Ignore meta files
+.DS_Store

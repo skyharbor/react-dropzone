@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel index.js --out-file lib/index.js",
-    "prepublish": "babel index.js --out-file lib/index.js"
+    "prepublish": "babel index.js --out-file lib/index.js",
+    "test": "jest"
   },
   "keywords": [
     "react-component",
@@ -28,6 +29,11 @@
     "attr-accept": "^1.0.1"
   },
   "devDependencies": {
-    "babel": "^5.8.21"
+    "babel": "^5.8.21",
+    "jest-cli": "^0.5.8",
+    "react": "^0.13.3"
+  },
+  "jest": {
+    "unmockedModulePathPatterns": ["node_modules/react"]
   }
 }
